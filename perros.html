@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego: Razas de Perros</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header, footer {
+      background-color: #f7c59f;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .cell {
+      text-align: center;
+    }
+
+    .cell img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .nombre {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Juego: Razas de Perros</h1>
+    <a href="index.html">Inicio</a>
+  </header>
+
+  <main>
+    <div class="controls">
+      <button onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <a class="back" href="index.html">⬅ Volver al menú</a>
+  </main>
+
+  <footer>
+    <p>Hecho por Josu 🐾</p>
+  </footer>
+
+  <script>
+    const razas = [
+      { nombre: "Labrador Retriever", archivo: "labrador.jpg" },
+      { nombre: "Pastor Alemán", archivo: "pastor_aleman.jpg" },
+      { nombre: "Golden Retriever", archivo: "golden_retriever.jpg" },
+      { nombre: "Bulldog Francés", archivo: "bulldog_frances.jpg" },
+      { nombre: "Beagle", archivo: "beagle.jpg" },
+      { nombre: "Caniche", archivo: "poodle.jpg" },
+      { nombre: "Chihuahua", archivo: "chihuahua.jpg" },
+      { nombre: "Rottweiler", archivo: "rottweiler.jpg" },
+      { nombre: "Dóberman", archivo: "doberman.jpg" },
+      { nombre: "Yorkshire Terrier", archivo: "yorkshire.jpg" },
+      { nombre: "Husky", archivo: "husky.jpg" },
+      { nombre: "Bulldog Inglés", archivo: "bulldog_ingles.jpg" },
+      { nombre: "Samoyedo", archivo: "samoyedo.jpg" },
+      { nombre: "Husky Siberiano", archivo: "husky_siberiano.jpg" },
+      { nombre: "San Bernardo", archivo: "san_bernardo.jpg" },
+      { nombre: "Galgo", archivo: "galgo.jpg" },
+      { nombre: "Shih Tzu", archivo: "shih_tzu.jpg" },
+      { nombre: "Basenji", archivo: "basenji.jpg" },
+      { nombre: "Collie", archivo: "collie.jpg" },
+      { nombre: "Border Collie", archivo: "border_collie.jpg" },
+      { nombre: "Mastín Napolitano", archivo: "mastin_napolitano.jpg" },
+      { nombre: "Mastín Español", archivo: "mastin_español.jpg" },
+      { nombre: "Pekinés", archivo: "pekinese.jpg" },
+      { nombre: "Fox Terrier", archivo: "fox_terrier.jpg" },
+      { nombre: "Border Terrier", archivo: "border_terrier.jpg" },
+      { nombre: "Weimaraner", archivo: "weimaraner.jpg" },
+      { nombre: "Pastor de Shetland", archivo: "pastor_shetland.jpg" },
+      { nombre: "Pastor Belga", archivo: "pastor_belga.jpg" }
+    ];
+
+    let allNamesHidden = true;
+
+    function toggleAllNames() {
+      const names = document.querySelectorAll('.nombre');
+      allNamesHidden = !allNamesHidden;
+      names.forEach(name => {
+        name.classList.toggle('oculto', allNamesHidden);
+      });
+    }
+
+    function toggleName(imgEl) {
+      const nameEl = imgEl.nextElementSibling;
+      if (nameEl && nameEl.classList.contains("nombre")) {
+        nameEl.classList.toggle("oculto");
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      const shuffled = shuffle([...razas]);
+
+      shuffled.forEach(raza => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerHTML = `
+          <img src="img/${raza.archivo}" alt="${raza.nombre}" onclick="toggleName(this)">
+          <p class="nombre oculto">${raza.nombre}</p>
+        `;
+        grid.appendChild(cell);
+      });
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>

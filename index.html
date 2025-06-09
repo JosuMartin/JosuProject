@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JosuProject: Juegos Educativos</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: burlywood;
+      padding: 10px 20px;
+      text-align: center;
+      height: 80px;
+    }
+
+    header h1 {
+      margin: 0;
+      margin-top: 20px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background-image: url('img/fondo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card a {
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    footer {
+      background-color: burlywood;
+      text-align: center;
+      padding: 20px;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>JosuProject</h1>
+  </header>
+
+  <main>
+    <div class="card"><a href="coches.html">🚗 Marcas de Coches</a></div>
+    <div class="card"><a href="arboles.html">🌳 Árboles</a></div>
+    <div class="card"><a href="perros.html">🐶 Perros</a></div>
+    <div class="card"><a href="#">🔜 Próximamente</a></div>
+  </main>
+
+  <footer>
+    <p>Hecho por Josu 🚗</p>
+  </footer>
+</body>
+</html>

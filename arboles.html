@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego: Especies de Árboles</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header, footer {
+      background-color: #a2d5ac;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 100px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .cell {
+      text-align: center;
+    }
+
+    .cell img {
+      width: 220px;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .nombre {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Juego: Especies de Árboles</h1>
+    <a href="index.html">Inicio</a>
+  </header>
+
+  <main>
+    <div class="controls">
+      <button onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <a class="back" href="index.html">⬅ Volver al menú</a>
+  </main>
+
+  <footer>
+    <p>Hecho por Josu 🌳</p>
+  </footer>
+
+  <script>
+    const arboles = [
+      { src: "img/roble.jpg", nombre: "Roble" },
+      { src: "img/pino.jpg", nombre: "Pino" },
+      { src: "img/abeto.jpg", nombre: "Abeto" },
+      { src: "img/olmo.jpg", nombre: "Olmo" },
+      { src: "img/baobab.jpg", nombre: "Baobab" },
+      { src: "img/cerezo.jpg", nombre: "Cerezo" },
+      { src: "img/eucalipto.jpg", nombre: "Eucalipto" },
+      { src: "img/arce.jpg", nombre: "Arce" },
+      { src: "img/fresno.jpg", nombre: "Fresno" },
+      { src: "img/haya.jpg", nombre: "Haya" },
+      { src: "img/cedro.jpg", nombre: "Cedro" },
+      { src: "img/sauce.jpg", nombre: "Sauce" },
+      { src: "img/tilo.jpg", nombre: "Tilo" },
+      { src: "img/acacia.jpg", nombre: "Acacia" },
+      { src: "img/palmera.jpg", nombre: "Palmera" },
+      { src: "img/manzano.jpg", nombre: "Manzano" },
+      { src: "img/naranjo.jpg", nombre: "Naranjo" },
+      { src: "img/almendro.jpg", nombre: "Almendro" },
+      { src: "img/nogal.jpg", nombre: "Nogal" },
+      { src: "img/tejo.jpg", nombre: "Tejo" },
+      { src: "img/jacaranda.jpg", nombre: "Jacarandá" },
+      { src: "img/algarrobo.jpg", nombre: "Algarrobo" },
+      { src: "img/ceibo.jpg", nombre: "Ceibo" },
+      { src: "img/mango.jpg", nombre: "Mango" },
+      { src: "img/avellano.jpg", nombre: "Avellano" },
+      { src: "img/arbol_pan.jpg", nombre: "Árbol del pan" },
+      { src: "img/arbol_caucho.jpg", nombre: "Árbol del caucho" },
+      { src: "img/bambu.jpg", nombre: "Bambú" },
+      { src: "img/neem.jpg", nombre: "Neem" },
+      { src: "img/ginkgo.jpg", nombre: "Ginkgo biloba" }
+    ];
+
+    let allNamesHidden = true;
+
+    function toggleAllNames() {
+      const nombres = document.querySelectorAll('.nombre');
+      allNamesHidden = !allNamesHidden;
+      nombres.forEach(n => n.classList.toggle('oculto', allNamesHidden));
+    }
+
+    function toggleName(imgEl) {
+      const nameEl = imgEl.nextElementSibling;
+      if (nameEl && nameEl.classList.contains("nombre")) {
+        nameEl.classList.toggle("oculto");
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      const barajado = shuffle([...arboles]);
+      barajado.forEach(arbol => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerHTML = `
+          <img src="${arbol.src}" alt="${arbol.nombre}" onclick="toggleName(this)">
+          <p class="nombre oculto">${arbol.nombre}</p>
+        `;
+        grid.appendChild(cell);
+      });
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>
