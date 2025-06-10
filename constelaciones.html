@@ -3,21 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Juego: Marcas de Coches</title>
+  <title>Juego: Constelaciones</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background-color: #0d0d2b;
+      color: white;
     }
 
     header, footer {
+      background-color: #1a1a40;
       padding: 20px;
       text-align: center;
-      background-color: grey;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      color: white;
     }
 
     main {
@@ -31,10 +29,20 @@
       margin-bottom: 20px;
     }
 
+    .controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #5c7cfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 30px;
+      gap: 40px;
       width: 100%;
       max-width: 1000px;
     }
@@ -44,34 +52,39 @@
     }
 
     .cell img {
-      width: 100px;
+      width: 180px;
       height: auto;
       margin-bottom: 10px;
+      border-radius: 8px;
       cursor: pointer;
+      border: 2px solid #444;
+      background-color: black;
     }
 
     .oculto {
       display: none;
     }
- 
+
     .nombre {
       cursor: pointer;
       font-weight: bold;
+      font-size: 16px;
+      color: #ffe066;
     }
 
     a.back {
       display: inline-block;
       margin-top: 20px;
       text-decoration: none;
-      color: #0077cc;
+      color: #00d4ff;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Juego: Marcas de Coches</h1>
-    <a href="index.html" style="color:white;">Inicio</a>
+    <h1>Juego: Constelaciones</h1>
+    <a href="index.html" style="color: #90e0ef;">Inicio</a>
   </header>
 
   <main>
@@ -85,17 +98,31 @@
   </main>
 
   <footer>
-    <p>Hecho por Josu 🚗</p>
+    <p>Hecho por Josu 🌌</p>
   </footer>
 
   <script>
-    const marcas = [
-      "toyota", "ford", "volkswagen", "honda", "chevrolet", "nissan", "bmw", "mercedes",
-      "audi", "hyundai", "kia", "tesla", "pergeot", "renault", "fiat", "mazda", "subaru",
-      "volvo", "mitsubitsi", "lexus", "land", "juaguar", "porche", "chrysler", "jeep",
-      "dodge", "buick", "cadillac", "opel", "seat", "skoda", "mini", "suzuki", "citroen",
-      "alfaromeo", "ferrari", "lamborghini", "maserati", "astonmartin", "bentley", "rollsroyce",
-      "bugatti", "mclaren"
+    const constelaciones = [
+      { nombre: "Orión", archivo: "orion.jpg" },
+      { nombre: "Casiopea", archivo: "casiopea.jpg" },
+      { nombre: "Osa Mayor", archivo: "osa_mayor.jpg" },
+      { nombre: "Osa Menor", archivo: "osa_menor.jpg" },
+      { nombre: "Cisne", archivo: "cisne.jpg" },
+      { nombre: "Escorpión", archivo: "escorpion.jpg" },
+      { nombre: "Sagitario", archivo: "sagitario.jpg" },
+      { nombre: "Leo", archivo: "leo.jpg" },
+      { nombre: "Tauro", archivo: "tauro.jpg" },
+      { nombre: "Géminis", archivo: "geminis.jpg" },
+      { nombre: "Piscis", archivo: "piscis.jpg" },
+      { nombre: "Acuario", archivo: "acuario.jpg" },
+      { nombre: "Cáncer", archivo: "cancer.jpg" },
+      { nombre: "Libra", archivo: "libra.jpg" },
+      { nombre: "Virgo", archivo: "virgo.jpg" },
+      { nombre: "Capricornio", archivo: "capricornio.jpg" },
+      { nombre: "Andrómeda", archivo: "andromeda.jpg" },
+      { nombre: "Perseo", archivo: "perseo.jpg" },
+      { nombre: "Pegaso", archivo: "pegaso.jpg" },
+      { nombre: "Hidra", archivo: "hidra.jpg" }
     ];
 
     let allNamesHidden = true;
@@ -125,15 +152,14 @@
 
     function renderGrid() {
       const grid = document.getElementById('grid');
-      const shuffled = shuffle([...marcas]);
+      const shuffled = shuffle([...constelaciones]);
 
-      shuffled.forEach(marca => {
+      shuffled.forEach(constelacion => {
         const cell = document.createElement('div');
         cell.className = 'cell';
-        const capitalized = marca.charAt(0).toUpperCase() + marca.slice(1).replace("pergeot", "Peugeot").replace("juaguar", "Jaguar").replace("porche", "Porsche").replace("mitsubitsi", "Mitsubishi");
         cell.innerHTML = `
-          <img src="img/${marca}.png" alt="${capitalized}" onclick="toggleName(this)">
-          <p class="nombre oculto">${capitalized}</p>
+          <img src="img/${constelacion.archivo}" alt="${constelacion.nombre}" onclick="toggleName(this)">
+          <p class="nombre oculto">${constelacion.nombre}</p>
         `;
         grid.appendChild(cell);
       });
