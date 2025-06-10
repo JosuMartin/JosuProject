@@ -9,24 +9,24 @@
       margin: 0;
       font-family: Arial, sans-serif;
     }
-
+  
     header, footer {
       background-color: #f7c59f;
       padding: 20px;
       text-align: center;
     }
-
+  
     main {
       padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-
+  
     .controls {
       margin-bottom: 20px;
     }
-
+  
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -34,11 +34,11 @@
       width: 100%;
       max-width: 1000px;
     }
-
+  
     .cell {
       text-align: center;
     }
-
+  
     .cell img {
       width: 180px;
       height: auto;
@@ -46,16 +46,16 @@
       border-radius: 8px;
       cursor: pointer;
     }
-
+  
     .oculto {
       display: none;
     }
-
+  
     .nombre {
       cursor: pointer;
       font-weight: bold;
     }
-
+  
     a.back {
       display: inline-block;
       margin-top: 20px;
@@ -63,7 +63,20 @@
       color: #0077cc;
       font-weight: bold;
     }
+  
+    /* Responsive: una sola columna en pantallas pequeñas */
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+  
+      .cell img {
+        width: 100%; /* Ajusta la imagen al ancho disponible */
+        max-width: 300px;
+      }
+    }
   </style>
+  
 </head>
 <body>
   <header>
@@ -136,7 +149,6 @@
       { nombre: "Boston Terrier", archivo: "boston_terrier.jpg" },
       { nombre: "Gran Pirineo", archivo: "gran_pirineo.jpg" },
       { nombre: "Perro de Agua Español", archivo: "agua_espanol.jpg" },
-      { nombre: "Basenji", archivo: "basenji.jpg" },     // Nombre propio de raza africana
       { nombre: "Saluki", archivo: "saluki.jpg" },       // Nombre propio árabe
       { nombre: "Borzoi", archivo: "borzoi.jpg" },       // Nombre propio ruso
       { nombre: "Keeshond", archivo: "keeshond.jpg" },   // Nombre neerlandés
