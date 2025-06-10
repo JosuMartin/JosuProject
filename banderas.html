@@ -3,20 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Juego: Marcas de Coches</title>
+  <title>Juego: Banderas de Europa</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background-color: #e3f2fd;
     }
 
     header, footer {
+      background-color: #1565c0;
       padding: 20px;
       text-align: center;
-      background-color: grey;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       color: white;
     }
 
@@ -29,6 +27,16 @@
 
     .controls {
       margin-bottom: 20px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #42a5f5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
 
     .grid {
@@ -44,34 +52,48 @@
     }
 
     .cell img {
-      width: 100px;
+      width: 150px;
       height: auto;
       margin-bottom: 10px;
+      border-radius: 4px;
       cursor: pointer;
+      border: 1px solid #999;
     }
 
     .oculto {
       display: none;
     }
- 
+
     .nombre {
       cursor: pointer;
       font-weight: bold;
+      color: #0d47a1;
     }
 
     a.back {
       display: inline-block;
       margin-top: 20px;
       text-decoration: none;
-      color: #0077cc;
+      color: #1565c0;
       font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cell img {
+        width: 100%;
+        max-width: 300px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Juego: Marcas de Coches</h1>
-    <a href="index.html" style="color:white;">Inicio</a>
+    <h1>Juego: Banderas de Europa</h1>
+    <a href="index.html" style="color: #bbdefb;">Inicio</a>
   </header>
 
   <main>
@@ -85,17 +107,18 @@
   </main>
 
   <footer>
-    <p>Hecho por Josu 🚗</p>
+    <p>Hecho por Josu 🌍</p>
   </footer>
 
   <script>
-    const marcas = [
-      "toyota", "ford", "volkswagen", "honda", "chevrolet", "nissan", "bmw", "mercedes",
-      "audi", "hyundai", "kia", "tesla", "pergeot", "renault", "fiat", "mazda", "subaru",
-      "volvo", "mitsubitsi", "lexus", "land", "juaguar", "porche", "chrysler", "jeep",
-      "dodge", "buick", "cadillac", "opel", "seat", "skoda", "mini", "suzuki", "citroen",
-      "alfaromeo", "ferrari", "lamborghini", "maserati", "astonmartin", "bentley", "rollsroyce",
-      "bugatti", "mclaren", "acura", "daewoo", "daihatsu", "infiniti", "lincoln", "saab", "smart", "tata", "geely", "chery", "proton", "corvette"
+    const paises = [
+      "alemania", "andorra", "albania", "armenia", "austria", "azerbaiyan", "bélgica", "bielorrusia",
+      "bosnia", "bulgaria", "chipre", "croacia", "dinamarca", "eslovaquia", "eslovenia", "espana",
+      "estonia", "finlandia", "francia", "georgia", "grecia", "hungria", "irlanda", "islandia",
+      "italia", "letonia", "liechtenstein", "lituania", "luxemburgo", "malta", "moldavia",
+      "monaco", "montenegro", "noruega", "paises_bajos", "polonia", "portugal", "reino_unido",
+      "republica_checa", "macedonia", "rumania", "rusia", "san_marino", "serbia", "suecia",
+      "suiza", "turquia", "ucrania", "vaticano"
     ];
 
     let allNamesHidden = true;
@@ -125,15 +148,25 @@
 
     function renderGrid() {
       const grid = document.getElementById('grid');
-      const shuffled = shuffle([...marcas]);
+      const shuffled = shuffle([...paises]);
 
-      shuffled.forEach(marca => {
+      shuffled.forEach(pais => {
+        const nombre = pais
+          .replace("espana", "España")
+          .replace("reino_unido", "Reino Unido")
+          .replace("paises_bajos", "Países Bajos")
+          .replace("republica_checa", "República Checa")
+          .replace("macedonia", "Macedonia del Norte")
+          .replace("san_marino", "San Marino")
+          .replace("vaticano", "Ciudad del Vaticano")
+          .replace(/_/g, ' ')
+          .replace(/\b\w/g, l => l.toUpperCase());
+
         const cell = document.createElement('div');
         cell.className = 'cell';
-        const capitalized = marca.charAt(0).toUpperCase() + marca.slice(1).replace("pergeot", "Peugeot").replace("juaguar", "Jaguar").replace("porche", "Porsche").replace("mitsubitsi", "Mitsubishi");
         cell.innerHTML = `
-          <img src="img/${marca}.png" alt="${capitalized}" onclick="toggleName(this)">
-          <p class="nombre oculto">${capitalized}</p>
+          <img src="img/${pais}.png" alt="${nombre}" onclick="toggleName(this)">
+          <p class="nombre oculto">${nombre}</p>
         `;
         grid.appendChild(cell);
       });
