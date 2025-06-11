@@ -77,6 +77,16 @@
       color: #1565c0;
       font-weight: bold;
     }
+    .controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #5c7cfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 35px;
+    }
 
     @media (max-width: 600px) {
       .grid {
@@ -98,7 +108,9 @@
 
   <main>
     <div class="controls">
-      <button onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+      <button class="controls button" onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+      <p>Haz click en la foto para mostrar/ocultar la respuesta!</p>
+
     </div>
 
     <h2>Banderas de Europa</h2>

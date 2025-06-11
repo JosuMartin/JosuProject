@@ -8,6 +8,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background-color: thistle;
     }
 
     header, footer {
@@ -63,6 +64,17 @@
       color: #c71585;
       font-weight: bold;
     }
+
+    .controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #5c7cfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 35px;
+    }
   </style>
 </head>
 <body>
@@ -73,7 +85,8 @@
 
   <main>
     <div class="controls">
-      <button onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+      <button class="button" onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+      <p>Haz click en la foto para mostrar/ocultar la respuesta!</p>
     </div>
 
     <div class="grid" id="grid"></div>
