@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego: Monumentos del Mundo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header, footer {
+      background-color: #8e9aaf;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #495867;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 40px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .cell {
+      text-align: center;
+    }
+
+    .cell img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid #ccc;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .nombre {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: bold;
+    }
+
+    /* Responsive: una columna en pantallas pequeñas */
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cell img {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Juego: Monumentos del Mundo</h1>
+    <a href="index.html" style="color: #cce;">Inicio</a>
+  </header>
+
+  <main>
+    <div class="controls">
+      <button onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <a class="back" href="index.html">⬅ Volver al menú</a>
+  </main>
+
+  <footer>
+    <p>Hecho por Josu 🏛️</p>
+  </footer>
+
+  <script>
+    const monumentos = [
+      { nombre: "Torre Eiffel (Paris)", archivo: "torre_eiffel.jpg" },
+      { nombre: "Estatua de la Libertad (Nueva York)", archivo: "estatua_libertad.jpg" },
+      { nombre: "Coliseo Romano (Roma)", archivo: "coliseo.jpg" },
+      { nombre: "Taj Mahal (India)", archivo: "taj_mahal.jpg" },
+      { nombre: "Cristo Redentor(Brasil)", archivo: "cristo_redentor.jpg" },
+      { nombre: "Gran Muralla China", archivo: "muralla_china.jpg" },
+      { nombre: "Big Ben (Londres)", archivo: "big_ben.jpg" },
+      { nombre: "Sagrada Familia (Barcelona)", archivo: "sagrada_familia.jpg" },
+      { nombre: "Ópera de Sídney (Australia)", archivo: "opera_sydney.jpg" },
+      { nombre: "Machu Picchu (Peru)", archivo: "machu_picchu.jpg" },
+      { nombre: "Petra (Jordania)", archivo: "petra.jpg" },
+      { nombre: "Stonehenge (Reino Unido, Inglaterra)", archivo: "stonehenge.jpg" },
+      { nombre: "Monte Rushmore (Estados Unidos)", archivo: "rushmore.jpg" },
+      { nombre: "Puerta de Brandeburgo (Berlin)", archivo: "puerta_brandeburgo.jpg" },
+      { nombre: "Mezquita Azul (Estambul, Turquia)", archivo: "mezquita_azul.jpg" },
+      { nombre: "Angkor Wat (Camboya)", archivo: "angkor_wat.jpg" },
+      { nombre: "Torre de Pisa (Italia)", archivo: "torre_pisa.jpg" },
+      { nombre: "La Alhambra (Granada)", archivo: "alhambra.jpg" },
+      { nombre: "Kremlin (Moscú)", archivo: "kremlin.jpg" },
+      { nombre: "Monte Fuji (Japón)", archivo: "monte_fuji.jpg" },
+      { nombre: "Burj Khalifa (Dubái)", archivo: "burj_khalifa.jpg" },
+      { nombre: "Chichén Itzá (México)", archivo: "chichen_itza.jpg" },
+      { nombre: "Moáis de Isla de Pascua (Chile)", archivo: "moais_pascua.jpg" },
+      { nombre: "Acrópolis (Atenas)", archivo: "acropolis.jpg" },
+      { nombre: "Golden Gate (San Francisco)", archivo: "golden_gate.jpg" },
+  { nombre: "Catedral de Notre Dame (París)", archivo: "notre_dame.jpg" },
+  { nombre: "Templo del Cielo (Pekín)", archivo: "templo_cielo.jpg" },
+  { nombre: "Palacio de Versalles (Francia)", archivo: "versalles.jpg" },
+  { nombre: "Torre CN (Canada, Toronto)", archivo: "torre_cn.jpg" },
+  { nombre: "Monte Saint-Michel (Francia)", archivo: "mont_saint_michel.jpg" },
+  { nombre: "Catedral de San Basilio (Moscú)", archivo: "san_basilio.jpg" },
+  { nombre: "Mezquita Sheikh Zayed (Emiratos arabes, Abu Dabi)", archivo: "sheikh_zayed.jpg" },
+  { nombre: "Torre de Hércules (Galicia)", archivo: "torre_hercules.jpg" },
+  { nombre: "Castillo de Neuschwanstein (Alemania)", archivo: "neuschwanstein.jpg" },
+  { nombre: "Palacio de Potala (China, Lhasa)", archivo: "potala.jpg" },
+  { nombre: "Pagoda Shwedagon (Yangón)", archivo: "shwedagon.jpg" },
+  { nombre: "Castillo de Edimburgo (Reino Unido, Escocia)", archivo: "castillo_edimburgo.jpg" },
+  { nombre: "Iglesia del Salvador sobre la Sangre Derramada (San Petersburgo)", archivo: "salvador_sangre.jpg" },
+  { nombre: "Puerta del Sol (Madrid)", archivo: "puerta_sol.jpg" }
+    ];
+
+    let allNamesHidden = true;
+
+    function toggleAllNames() {
+      const names = document.querySelectorAll('.nombre');
+      allNamesHidden = !allNamesHidden;
+      names.forEach(name => {
+        name.classList.toggle('oculto', allNamesHidden);
+      });
+    }
+
+    function toggleName(imgEl) {
+      const nameEl = imgEl.nextElementSibling;
+      if (nameEl && nameEl.classList.contains("nombre")) {
+        nameEl.classList.toggle("oculto");
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      const shuffled = shuffle([...monumentos]);
+
+      shuffled.forEach(monumento => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerHTML = `
+          <img src="img/${monumento.archivo}" alt="${monumento.nombre}" onclick="toggleName(this)">
+          <p class="nombre oculto">${monumento.nombre}</p>
+        `;
+        grid.appendChild(cell);
+      });
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>

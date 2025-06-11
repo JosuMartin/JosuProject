@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego: Tipos de Flores</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header, footer {
+      background-color: #f9c2ff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 100px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .cell {
+      text-align: center;
+    }
+
+    .cell img {
+      width: 220px;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .nombre {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #c71585;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Juego: Tipos de Flores</h1>
+    <a href="index.html">Inicio</a>
+  </header>
+
+  <main>
+    <div class="controls">
+      <button onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <a class="back" href="index.html">⬅ Volver al menú</a>
+  </main>
+
+  <footer>
+    <p>Hecho por Josu 🌸</p>
+  </footer>
+
+  <script>
+    const flores = [
+      { src: "img/rosa.jpg", nombre: "Rosa" },
+      { src: "img/lirio.jpg", nombre: "Lirio" },
+      { src: "img/girasol.jpg", nombre: "Girasol" },
+      { src: "img/clavel.jpg", nombre: "Clavel" },
+      { src: "img/tulipan.jpg", nombre: "Tulipán" },
+      { src: "img/margarita.jpg", nombre: "Margarita" },
+      { src: "img/hibisco.jpg", nombre: "Hibisco" },
+      { src: "img/dalia.jpg", nombre: "Dalia" },
+      { src: "img/orquidea.jpg", nombre: "Orquídea" },
+      { src: "img/azucena.jpg", nombre: "Azucena" },
+      { src: "img/peonia.jpg", nombre: "Peonía" },
+      { src: "img/jazmin.jpg", nombre: "Jazmín" },
+      { src: "img/amarilis.jpg", nombre: "Amarilis" },
+      { src: "img/geranio.jpg", nombre: "Geranio" },
+      { src: "img/aster.jpg", nombre: "Áster" },
+      { src: "img/anemona.jpg", nombre: "Anémona" },
+      { src: "img/camelia.jpg", nombre: "Camelia" },
+      { src: "img/gladiolo.jpg", nombre: "Gladiolo" },
+      { src: "img/narciso.jpg", nombre: "Narciso" },
+      { src: "img/viola.jpg", nombre: "Viola" }
+    ];
+
+    let allNamesHidden = true;
+
+    function toggleAllNames() {
+      const nombres = document.querySelectorAll('.nombre');
+      allNamesHidden = !allNamesHidden;
+      nombres.forEach(n => n.classList.toggle('oculto', allNamesHidden));
+    }
+
+    function toggleName(imgEl) {
+      const nameEl = imgEl.nextElementSibling;
+      if (nameEl && nameEl.classList.contains("nombre")) {
+        nameEl.classList.toggle("oculto");
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      const barajado = shuffle([...flores]);
+      barajado.forEach(flor => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerHTML = `
+          <img src="${flor.src}" alt="${flor.nombre}" onclick="toggleName(this)">
+          <p class="nombre oculto">${flor.nombre}</p>
+        `;
+        grid.appendChild(cell);
+      });
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>
