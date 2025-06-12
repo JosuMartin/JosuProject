@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego: Aves del Mundo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: lightblue;
+    }
+
+    header, footer {
+      background-color: #cceeff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .cell {
+      text-align: center;
+    }
+
+    .cell img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .nombre {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: bold;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #5c7cfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 35px;
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cell img {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Juego: Aves del Mundo</h1>
+    <a href="index.html">Inicio</a>
+  </header>
+
+  <main>
+    <div class="controls">
+      <button class="button" onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+      <p>Haz click en la foto para mostrar/ocultar la especie!</p>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <a class="back" href="index.html">⬅ Volver al menú</a>
+  </main>
+
+  <footer>
+    <p>Hecho por Josu 🐦</p>
+  </footer>
+
+  <script>
+    const aves = [
+    { nombre: "Águila Real", archivo: "aguila_real.jpg" },
+    { nombre: "Colibrí Esmeralda", archivo: "colibri_esmeralda.jpg" },
+    { nombre: "Flamenco", archivo: "flamenco.jpg" },
+    { nombre: "Tucán", archivo: "tucan.jpg" },
+    { nombre: "Pavo Real", archivo: "pavo_real.jpg" },
+    { nombre: "Pingüino Emperador", archivo: "pinguino.jpg" },
+    { nombre: "Loro Amazónico", archivo: "loro_amazonico.jpg" },
+    { nombre: "Halcón Peregrino", archivo: "halcon_peregrino.jpg" },
+    { nombre: "Búho Real", archivo: "buho_real.jpg" },
+    { nombre: "Canario", archivo: "canario.jpg" },
+    { nombre: "Guacamayo Azul", archivo: "guacamayo.jpg" },
+    { nombre: "Cisne Blanco", archivo: "cisne_blanco.jpg" },
+    { nombre: "Garza Real", archivo: "garza_real.jpg" },
+    { nombre: "Gorrión", archivo: "gorrion.jpg" },
+    { nombre: "Avestruz", archivo: "avestruz.jpg" },
+    { nombre: "Cormorán", archivo: "cormoran.jpg" },
+    { nombre: "Petirrojo", archivo: "petirrojo.jpg" },
+    { nombre: "Cacatúa", archivo: "cacatua.jpg" },
+    { nombre: "Pelícano", archivo: "pelicano.jpg" },
+    { nombre: "Albatros", archivo: "albatros.jpg" },
+    { nombre: "Cuervo", archivo: "cuervo.jpg" },
+    { nombre: "Urraca", archivo: "urraca.jpg" },
+    { nombre: "Golondrina", archivo: "golondrina.jpg" },
+    { nombre: "Cotorra Argentina", archivo: "cotorra_argentina.jpg" },
+    { nombre: "Zorzal", archivo: "zorzal.jpg" },
+    { nombre: "Tórtola", archivo: "tortola.jpg" },
+    { nombre: "Periquito", archivo: "periquito.jpg" },
+    { nombre: "Ave del Paraíso", archivo: "ave_paraiso.jpg" },
+    { nombre: "Quetzal", archivo: "quetzal.jpg" },
+    { nombre: "Cárabo Común", archivo: "carabo.jpg" },
+    { nombre: "Pájaro Carpintero", archivo: "carpintero.jpg" },
+    { nombre: "Martín Pescador", archivo: "martin_pescador.jpg" },
+    { nombre: "Reyezuelo", archivo: "reyezuelo.jpg" },
+    { nombre: "Jilguero", archivo: "jilguero.jpg" },
+    { nombre: "Gaviota", archivo: "gaviota.jpg" },
+    { nombre: "Papamoscas", archivo: "papamoscas.jpg" },
+    { nombre: "Ave Lira", archivo: "ave_lira.jpg" },
+    { nombre: "Ave Secretaria", archivo: "ave_secretaria.jpg" },
+    { nombre: "Piquero de Patas Azules", archivo: "piquero_patas_azules.jpg" },
+    { nombre: "Atrapamoscas Real", archivo: "atrapamoscas.jpg" },
+    { nombre: "Ibis Escarlata", archivo: "ibis.jpg" },
+    { nombre: "Cardenal Rojo", archivo: "cardenal.jpg" },
+    { nombre: "Verdín", archivo: "verdin.jpg" },
+    { nombre: "Turaco", archivo: "turaco.jpg" },
+    { nombre: "Ruiseñor", archivo: "ruisenor.jpg" },
+    { nombre: "Chorlitejo", archivo: "chorlitejo.jpg" },
+    { nombre: "Frégata", archivo: "fregata.jpg" },
+    { nombre: "Cigüeña Blanca", archivo: "ciguena.jpg" },
+    { nombre: "Ave Sol", archivo: "ave_sol.jpg" },
+    { nombre: "Pato Mandarín", archivo: "pato_mandarin.jpg" },
+    { nombre: "Jacamar", archivo: "jacamar.jpg" },
+    { nombre: "Tangara Multicolor", archivo: "tangara.jpg" },
+    { nombre: "Gallina de Guinea", archivo: "gallina_guinea.jpg" },
+    { nombre: "Mirlo", archivo: "mirlo.jpg" },
+    { nombre: "Alondra", archivo: "alondra.jpg" },
+    { nombre: "Búho Nevado", archivo: "buho_nevado.jpg" },
+    { nombre: "Lechuza", archivo: "lechuza.jpg" },
+    { nombre: "Tinamú", archivo: "tinamu.jpg" },
+    { nombre: "Buitre", archivo: "buitre.jpg" }
+
+    ];
+
+ 
+
+    let allNamesHidden = true;
+
+    function toggleAllNames() {
+      const names = document.querySelectorAll('.nombre');
+      allNamesHidden = !allNamesHidden;
+      names.forEach(name => {
+        name.classList.toggle('oculto', allNamesHidden);
+      });
+    }
+
+    function toggleName(imgEl) {
+      const nameEl = imgEl.nextElementSibling;
+      if (nameEl && nameEl.classList.contains("nombre")) {
+        nameEl.classList.toggle("oculto");
+      }
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      const shuffled = shuffle([...aves]);
+
+      shuffled.forEach(ave => {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerHTML = `
+          <img src="img/${ave.archivo}" alt="${ave.nombre}" onclick="toggleName(this)">
+          <p class="nombre oculto">${ave.nombre}</p>
+        `;
+        grid.appendChild(cell);
+      });
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>
