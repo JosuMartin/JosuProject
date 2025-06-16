@@ -74,6 +74,19 @@
       cursor: pointer;
       margin-left: 35px;
     }
+    button.reload {
+      display: inline-block;
+      margin-top: 20px;
+      margin-left: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #5c7cfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -89,6 +102,7 @@
     </div>
 
     <div class="grid" id="grid"></div>
+    <button class="reload" onclick="recargarArriba()">🔄 Recargar</button>
 
     <a class="back" href="index.html">⬅ Volver al menú</a>
   </main>
@@ -128,10 +142,32 @@
       { src: "img/arbol_caucho.jpg", nombre: "Árbol del caucho" },
       { src: "img/bambu.jpg", nombre: "Bambú" },
       { src: "img/neem.jpg", nombre: "Neem" },
-      { src: "img/ginkgo.jpg", nombre: "Ginkgo biloba" }
+      { src: "img/ginkgo.jpg", nombre: "Ginkgo biloba" },
+      { src: "img/encina.jpg", nombre: "Encina" },
+{ src: "img/alcornoque.jpg", nombre: "Alcornoque" },
+{ src: "img/olivo.jpg", nombre: "Olivo" },
+{ src: "img/almeces.jpg", nombre: "Almez" },
+{ src: "img/chopo.jpg", nombre: "Chopo" },
+{ src: "img/tamarindo.jpg", nombre: "Tamarindo" },
+{ src: "img/alisos.jpg", nombre: "Aliso" },
+{ src: "img/cipres.jpg", nombre: "Ciprés" },
+{ src: "img/platanero.jpg", nombre: "Plátano de sombra" },
+{ src: "img/higuera.jpg", nombre: "Higuera" },
+{ src: "img/níspero.jpg", nombre: "Níspero" },
+{ src: "img/castaño.jpg", nombre: "Castaño" },
+{ src: "img/tamarisco.jpg", nombre: "Tamarisco" },
+{ src: "img/judastree.jpg", nombre: "Árbol del amor (Cercis)" },
+{ src: "img/serbal.jpg", nombre: "Serbal" },
+{ src: "img/arbutus.jpg", nombre: "Madroño" }
     ];
 
     let allNamesHidden = true;
+    function recargarArriba() {
+  window.scrollTo({ top: 0, behavior: 'instant' }); // o 'smooth' si prefieres
+  setTimeout(() => {
+    location.reload();
+  }, 50); // Pequeño retardo para asegurar el scroll
+}
 
     function toggleAllNames() {
       const nombres = document.querySelectorAll('.nombre');

@@ -88,6 +88,19 @@
       margin-left: 35px;
     }
 
+    button.reload {
+      display: inline-block;
+      margin-top: 20px;
+      margin-left: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #5c7cfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
     @media (max-width: 600px) {
       .grid {
         grid-template-columns: 1fr;
@@ -118,7 +131,8 @@
     
     <h2>Banderas de América</h2>
     <div class="grid" id="grid-america"></div>
-    
+    <button class="reload" onclick="recargarArriba()">🔄 Recargar</button>
+
     <a class="back" href="index.html">⬅ Volver al menú</a>
   </main>
 
@@ -161,6 +175,12 @@
         nameEl.classList.toggle("oculto");
       }
     }
+    function recargarArriba() {
+  window.scrollTo({ top: 0, behavior: 'instant' }); // o 'smooth' si prefieres
+  setTimeout(() => {
+    location.reload();
+  }, 50); // Pequeño retardo para asegurar el scroll
+}
 
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {

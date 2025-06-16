@@ -65,6 +65,19 @@
       font-weight: bold;
     }
 
+    button.reload {
+      display: inline-block;
+      margin-top: 20px;
+      margin-left: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #5c7cfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
     .controls button {
       padding: 10px 20px;
       font-size: 16px;
@@ -90,6 +103,7 @@
     </div>
 
     <div class="grid" id="grid"></div>
+    <button class="reload" onclick="recargarArriba()">🔄 Recargar</button>
 
     <a class="back" href="index.html">⬅ Volver al menú</a>
   </main>
@@ -146,6 +160,12 @@
       }
       return array;
     }
+    function recargarArriba() {
+  window.scrollTo({ top: 0, behavior: 'instant' }); // o 'smooth' si prefieres
+  setTimeout(() => {
+    location.reload();
+  }, 50); // Pequeño retardo para asegurar el scroll
+}
 
     function renderGrid() {
       const grid = document.getElementById('grid');
