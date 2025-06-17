@@ -68,16 +68,7 @@
       font-weight: bold;
     }
 
-    .controls button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #5c7cfa;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-left: 35px;
-    }
+    
     button.reload {
       display: inline-block;
       margin-top: 20px;
@@ -91,7 +82,17 @@
       cursor: pointer;
       font-weight: bold;
     }
-
+    .botones {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px; /* Añade espacio entre botones */
+      margin-top: 20px;
+    }
+    .botones a.back {
+      display: inline-block;
+      text-align: center;
+    }
 
   </style>
 </head>
@@ -109,10 +110,10 @@
     </div>
 
     <div class="grid" id="grid"></div>
-
+    <div class="botones">
     <button class="reload" onclick="recargarArriba()">🔄 Recargar</button>
-
     <a class="back" href="index.html">⬅ Volver al menú</a>
+    </div>
   </main>
 
   <footer>
@@ -124,7 +125,7 @@
       "toyota", "ford", "volkswagen", "honda", "chevrolet", "nissan", "bmw", "mercedes",
       "audi", "hyundai", "kia", "tesla", "pergeot", "renault", "fiat", "mazda", "subaru",
       "volvo", "mitsubitsi", "lexus", "land", "juaguar", "porche", "chrysler", "jeep",
-      "dodge", "buick", "cadillac", "opel", "seat", "skoda", "mini", "suzuki", "citroen",
+      "dodge", "buick", "cadillac", "opel", "seat", "skoda", "mini", "suzuki", "citroen", "mustang",
       "alfaromeo", "ferrari", "lamborghini", "maserati", "astonmartin", "bentley", "rollsroyce",
       "bugatti", "mclaren", "acura", "daewoo", "daihatsu", "infiniti", "lincoln", "saab", "smart", "tata", "geely", "chery", "proton", "corvette", "ds", "dr", "mg", "baic", "maxus", "aiways", "cupra", "polestar", "baojun", "gwm",
   "leapmotor", "neta", "voyah", "xpeng",

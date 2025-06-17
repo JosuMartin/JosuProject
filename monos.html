@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego: Especies de Monos</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e0f7fa;
+    }
+
+    header, footer {
+      background-color: #80deea;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .cell {
+      text-align: center;
+    }
+
+    .cell img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .nombre {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    a.back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #00796b;
+      font-weight: bold;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #26c6da;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-left: 35px;
+    }
+
+    button.reload {
+      display: inline-block;
+      margin-top: 20px;
+      margin-left: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #26c6da;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cell img {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Juego: Especies de Monos</h1>
+    <a href="index.html">Inicio</a>
+  </header>
+
+  <main>
+    <div class="controls">
+      <button class="button" onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+      <p>Haz click en la foto para mostrar/ocultar la especie!</p>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <button class="reload" onclick="recargarArriba()">🔄 Recargar</button>
+
+    <a class="back" href="index.html">⬅ Volver al menú</a>
+  </main>
+
+  <footer>
+    <p>Hecho por Josu 🐒</p>
+  </footer>
+
+  <script>
+    const monos = [
+      { nombre: "Gorila Occidental", archivos: ["gorila1.jpg", "gorila2.jpg"] },
+      { nombre: "Chimpancé Común", archivos: ["chimpance1.jpg", "chimpance2.jpg"] },
+      { nombre: "Orangután de Borneo", archivos: ["orangutan1.jpg", "orangutan2.jpg"] },
+      { nombre: "Orangután", archivos: ["orangu1.jpg", "orangu2.jpg"] },
+      { nombre: "Tití Emperador", archivos: ["titi1.jpg", "titi2.jpg"] },
+      { nombre: "Mono Araña", archivos: ["mono_arana1.jpg", "mono_arana2.jpg"] },
+      { nombre: "Macaco Japonés", archivos: ["macaco1.jpg", "macaco2.jpg"] },
+      { nombre: "Mandril", archivos: ["mandril1.jpg", "mandril2.jpg"] },
+      { nombre: "Mono Aullador", archivos: ["aullador1.jpg", "aullador2.jpg"] },
+      { nombre: "Mono Capuchino", archivos: ["capuchino1.jpg", "capuchino2.jpg"] },
+      { nombre: "Mono Narigudo", archivos: ["narigudo1.jpg", "narigudo2.jpg"] },
+      { nombre: "Langur Dorado", archivos: ["langur1.jpg", "langur2.jpg"] },
+      { nombre: "Dril", archivos: ["dril1.jpg", "dril2.jpg"] },
+      { nombre: "Saki de Cara Blanca", archivos: ["saki1.jpg", "saki2.jpg"] },
+      { nombre: "Mono Verde Africano", archivos: ["verde1.jpg", "verde2.jpg"] },
+      { nombre: "Mono de Gibraltar", archivos: ["gibraltar1.jpg", "gibraltar2.jpg"] },
+      { nombre: "Mono Rhesus", archivos: ["rhesus1.jpg", "rhesus2.jpg"] },
+    { nombre: "Mono Ardilla", archivos: ["ardilla1.jpg", "ardilla2.jpg"] },
+    { nombre: "Gibón de Manos Blancas", archivos: ["gibon_blanco1.jpg", "gibon_blanco2.jpg"] },
+    { nombre: "Babuino Sagrado", archivos: ["babuino1.jpg", "babuino2.jpg"] },
+    { nombre: "Mono Tamarin Algodonoso", archivos: ["algodonoso1.jpg", "algodonoso2.jpg"] },
+    { nombre: "Uakari de Cara Roja", archivos: ["uakari1.jpg", "uakari2.jpg"] },
+    { nombre: "Gibón Siamang", archivos: ["siamang1.jpg", "siamang2.jpg"] },
+    { nombre: "Colobo Rojo", archivos: ["colobo1.jpg", "colobo2.jpg"] },
+    { nombre: "Mono Vervet", archivos: ["vervet1.jpg", "vervet2.jpg"] },
+    { nombre: "Mono Nocturno", archivos: ["aotus1.jpg", "aotus2.jpg"] },
+    { nombre: "Mono Dorado de Nariz Chata", archivos: ["nariz_chata1.jpg", "nariz_chata2.jpg"] }
+    ];
+
+    let allNamesHidden = true;
+
+    function toggleAllNames() {
+      const names = document.querySelectorAll('.nombre');
+      allNamesHidden = !allNamesHidden;
+      names.forEach(name => {
+        name.classList.toggle('oculto', allNamesHidden);
+      });
+    }
+
+    function toggleName(imgEl) {
+      const nameEl = imgEl.nextElementSibling;
+      if (nameEl && nameEl.classList.contains("nombre")) {
+        nameEl.classList.toggle("oculto");
+      }
+    }
+
+    function recargarArriba() {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      setTimeout(() => {
+        location.reload();
+      }, 50);
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      const shuffled = shuffle([...monos]);
+
+      shuffled.forEach(mono => {
+        const imagen = mono.archivos[Math.floor(Math.random() * mono.archivos.length)];
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerHTML = `
+          <img src="img/${imagen}" alt="${mono.nombre}" onclick="toggleName(this)">
+          <p class="nombre oculto">${mono.nombre}</p>
+        `;
+        grid.appendChild(cell);
+      });
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>

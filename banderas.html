@@ -131,6 +131,17 @@
     
     <h2>Banderas de América</h2>
     <div class="grid" id="grid-america"></div>
+
+    <h2>Banderas de Asia</h2>
+    <div class="grid" id="grid-asia"></div>
+
+    <h2>Banderas de Oceanía</h2>
+    <div class="grid" id="grid-oceania"></div>
+
+    <h2>Banderas de África</h2>
+    <div class="grid" id="grid-africa"></div>
+
+
     <button class="reload" onclick="recargarArriba()">🔄 Recargar</button>
 
     <a class="back" href="index.html">⬅ Volver al menú</a>
@@ -157,6 +168,31 @@
       "granada", "guatemala", "guyana", "haiti", "honduras", "jamaica", "mexico", "nicaragua",
       "panama", "paraguay", "peru", "republica_dominicana", "san_cristobal", "san_vicente",
       "santa_lucia", "surinam", "trinidad_tobago", "uruguay", "venezuela"
+    ];
+    
+    const paisesAsia = [
+      "afganistan", "arabia_saudita", "armenia", "azerbaiyan", "bangladesh", "barein", "birmania",
+      "brunei", "butan", "camboya", "china", "corea_del_norte", "corea_del_sur", "emiratos_arabes_unidos",
+      "filipinas", "georgia", "india", "indonesia", "irak", "iran", "israel", "japon", "jordania",
+      "kazajistan", "kirguistan", "kuwait", "laos", "libano", "malasia", "maldivas", "mongolia",
+      "nepal", "oman", "pakistan", "qatar", "singapur", "siria", "sri_lanka", "tailandia",
+      "tayikistan", "timor_oriental", "turkmenistan", "uzbekistan", "vietnam", "yemen"
+    ];
+
+    const paisesOceania = [
+      "australia", "fiyi", "islas_marshall", "islas_salomon", "kiribati", "micronesia",
+      "nauru", "nueva_zelanda", "palaos", "papua_nueva_guinea", "samoa", "tonga",
+      "tuvalu", "vanuatu"
+    ];
+
+    const paisesAfrica = [
+      "angola", "argelia", "benin", "botsuana", "burkina_faso", "burundi", "cabo_verde",
+      "camerun", "chad", "comoras", "congo", "costamarfil", "egipto", "eritrea", "etiopia",
+      "gabon", "gambia", "ghana", "guinea", "guinea_bisau", "guinea_ecuatorial", "kenia",
+      "lesoto", "liberia", "libia", "madagascar", "malawi", "mali", "marruecos", "mauricio",
+      "mauritania", "mozambique", "namibia", "niger", "nigeria", "ruanda", "santo_tome",
+      "senegal", "seychelles", "sierra_leona", "somalia", "sudafrica", "sudan", "sudan_del_sur",
+      "tanzania", "togo", "tunez", "uganda", "yibuti", "zambia", "zimbabue"
     ];
 
     let allNamesHidden = true;
@@ -209,6 +245,11 @@
         .replace("san_vicente", "San Vicente y las Granadinas")
         .replace("santa_lucia", "Santa Lucía")
         .replace("trinidad_tobago", "Trinidad y Tobago")
+        .replace("corea_del_norte", "Corea del Norte")
+        .replace("corea_del_sur", "Corea del Sur")
+        .replace("sri_lanka", "Sri Lanka")
+        .replace("emiratos_arabes_unidos", "Emiratos Árabes Unidos")
+        .replace("timor_oriental", "Timor Oriental")
         .replace(/_/g, ' ')
         .replace(/\b\w/g, l => l.toUpperCase());
 
@@ -222,9 +263,12 @@
     });
   }
 
-
+  renderGrid(paisesAsia, 'grid-asia');
   renderGrid(paisesEuropa, 'grid-europa');
   renderGrid(paisesAmerica, 'grid-america');
+  renderGrid(paisesOceania, 'grid-oceania');
+  renderGrid(paisesAfrica, 'grid-africa');
+
   </script>
 </body>
 </html>
