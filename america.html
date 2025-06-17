@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Juego: Localiza Países de América</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      padding: 0;
+      background: #e3f6fd;
+      text-align: center;
+    }
+
+    header {
+      background: #0288d1;
+      color: white;
+      padding: 20px;
+    }
+
+    svg {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+    }
+
+    .highlight {
+      fill: orange !important;
+      stroke: red !important;
+      stroke-width: 2px;
+    }
+
+    #target {
+      font-size: 22px;
+      margin: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .end-game {
+      margin-top: 20px;
+    }
+
+    .end-game button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header><h1>¿Dónde está...? (Países de América)</h1></header>
+  <p id="target">Cargando...</p>
+  <div id="map-container"></div>
+  <div class="end-game" id="fin"></div>
+
+  <script>
+    const paises = [
+      { id: "ar", nombre: "Argentina" },
+      { id: "bo", nombre: "Bolivia" },
+      { id: "br", nombre: "Brasil" },
+      { id: "cl", nombre: "Chile" },
+      { id: "co", nombre: "Colombia" },
+      { id: "cr", nombre: "Costa Rica" },
+      { id: "cu", nombre: "Cuba" },
+      { id: "do", nombre: "República Dominicana" },
+      { id: "ec", nombre: "Ecuador" },
+      { id: "sv", nombre: "El Salvador" },
+      { id: "gt", nombre: "Guatemala" },
+      { id: "gy", nombre: "Guyana" },
+      { id: "ht", nombre: "Haití" },
+      { id: "hn", nombre: "Honduras" },
+      { id: "jm", nombre: "Jamaica" },
+      { id: "mx", nombre: "México" },
+      { id: "ni", nombre: "Nicaragua" },
+      { id: "pa", nombre: "Panamá" },
+      { id: "py", nombre: "Paraguay" },
+      { id: "pe", nombre: "Perú" },
+      { id: "sr", nombre: "Surinam" },
+      { id: "tt", nombre: "Trinidad y Tobago" },
+      { id: "us", nombre: "Estados Unidos" },
+      { id: "uy", nombre: "Uruguay" },
+      { id: "ve", nombre: "Venezuela" },
+      { id: "ca", nombre: "Canadá" },
+      { id: "bs", nombre: "Bahamas" },
+      { id: "bz", nombre: "Belice" },
+      { id: "gl", nombre: "Groenlandia" }
+    ];
+
+    let pendientes = [...paises];
+    let actual = null;
+    let pathsMap = {};
+
+    async function cargarSVG() {
+      const res = await fetch("img/mapa_america.svg");
+      const texto = await res.text();
+      document.getElementById("map-container").innerHTML = texto;
+
+      const paths = document.querySelectorAll("g, path, polygon");
+      paths.forEach(p => {
+        const id = p.id?.toLowerCase();
+        if (id) {
+          pathsMap[id] = p;
+          p.addEventListener("click", () => manejarClick(id));
+        }
+      });
+
+      iniciarJuego();
+    }
+
+    function manejarClick(idClicado) {
+      if (!actual) return;
+      if (idClicado === actual.id) {
+        const path = pathsMap[idClicado];
+        if (path) path.classList.add("highlight");
+        pendientes = pendientes.filter(p => p.id !== actual.id);
+        actual = null;
+        setTimeout(iniciarJuego, 500);
+      }
+    }
+
+    function iniciarJuego() {
+      if (pendientes.length === 0) {
+        document.getElementById("target").textContent = "¡Felicidades! Has localizado todos los países de América 🎉";
+        document.getElementById("fin").innerHTML = `
+          <button onclick="reiniciarJuego()">Volver a empezar</button>
+          <button onclick="window.location.href='index.html'">Volver al menú</button>
+        `;
+        return;
+      }
+
+      actual = pendientes[Math.floor(Math.random() * pendientes.length)];
+      document.getElementById("target").textContent = `Haz clic en: ${actual.nombre}`;
+    }
+
+    function reiniciarJuego() {
+      pendientes = [...paises];
+      actual = null;
+      document.getElementById("fin").innerHTML = "";
+      Object.values(pathsMap).forEach(p => p.classList.remove("highlight"));
+      iniciarJuego();
+    }
+
+    cargarSVG();
+  </script>
+</body>
+</html>

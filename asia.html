@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Juego: Localiza Países de Asia</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      padding: 0;
+      background: #e0f7fa;
+      text-align: center;
+    }
+
+    header {
+      background: #00695c;
+      color: white;
+      padding: 20px;
+    }
+
+    svg {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+    }
+
+    .highlight {
+      fill: orange !important;
+      stroke: red !important;
+      stroke-width: 2px;
+    }
+
+    #target {
+      font-size: 22px;
+      margin: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .end-game {
+      margin-top: 20px;
+    }
+
+    .end-game button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #00695c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header><h1>¿Dónde está...? (Países de Asia)</h1></header>
+  <p id="target">Cargando...</p>
+  <div id="map-container"></div>
+  <div class="end-game" id="fin"></div>
+
+  <script>
+    const paises = [
+      { id: "af", nombre: "Afganistán" },
+      { id: "am", nombre: "Armenia" },
+      { id: "az", nombre: "Azerbaiyán" },
+      { id: "bh", nombre: "Baréin" },
+      { id: "bd", nombre: "Bangladés" },
+      { id: "bt", nombre: "Bután" },
+      { id: "bn", nombre: "Brunéi" },
+      { id: "kh", nombre: "Camboya" },
+      { id: "cn", nombre: "China" },
+      { id: "cy", nombre: "Chipre" },
+      { id: "ge", nombre: "Georgia" },
+      { id: "in", nombre: "India" },
+      { id: "id", nombre: "Indonesia" },
+      { id: "ir", nombre: "Irán" },
+      { id: "iq", nombre: "Irak" },
+      { id: "il", nombre: "Israel" },
+      { id: "jp", nombre: "Japón" },
+      { id: "jo", nombre: "Jordania" },
+      { id: "kz", nombre: "Kazajistán" },
+      { id: "kw", nombre: "Kuwait" },
+      { id: "kg", nombre: "Kirguistán" },
+      { id: "la", nombre: "Laos" },
+      { id: "lb", nombre: "Líbano" },
+      { id: "my", nombre: "Malasia" },
+      { id: "mv", nombre: "Maldivas" },
+      { id: "mn", nombre: "Mongolia" },
+      { id: "mm", nombre: "Myanmar" },
+      { id: "np", nombre: "Nepal" },
+      { id: "kp", nombre: "Corea del Norte" },
+      { id: "om", nombre: "Omán" },
+      { id: "pk", nombre: "Pakistán" },
+      { id: "ph", nombre: "Filipinas" },
+      { id: "qa", nombre: "Catar" },
+      { id: "sa", nombre: "Arabia Saudita" },
+      { id: "sg", nombre: "Singapur" },
+      { id: "kr", nombre: "Corea del Sur" },
+      { id: "lk", nombre: "Sri Lanka" },
+      { id: "sy", nombre: "Siria" },
+      { id: "tj", nombre: "Tayikistán" },
+      { id: "th", nombre: "Tailandia" },
+      { id: "tl", nombre: "Timor Oriental" },
+      { id: "tr", nombre: "Turquía" },
+      { id: "tm", nombre: "Turkmenistán" },
+      { id: "ae", nombre: "Emiratos Árabes Unidos" },
+      { id: "uz", nombre: "Uzbekistán" },
+      { id: "vn", nombre: "Vietnam" },
+      { id: "ye", nombre: "Yemen" }
+    ];
+
+    let pendientes = [...paises];
+    let actual = null;
+    let pathsMap = {};
+
+    async function cargarSVG() {
+      const res = await fetch("img/mapa_asia.svg");
+      const texto = await res.text();
+      document.getElementById("map-container").innerHTML = texto;
+
+      const paths = document.querySelectorAll("g, path, polygon");
+      paths.forEach(p => {
+        const id = p.id?.toLowerCase();
+        if (id) {
+          pathsMap[id] = p;
+          p.addEventListener("click", () => manejarClick(id));
+        }
+      });
+
+      iniciarJuego();
+    }
+
+    function manejarClick(idClicado) {
+      if (!actual) return;
+      if (idClicado === actual.id) {
+        const path = pathsMap[idClicado];
+        if (path) path.classList.add("highlight");
+        pendientes = pendientes.filter(p => p.id !== actual.id);
+        actual = null;
+        setTimeout(iniciarJuego, 500);
+      }
+    }
+
+    function iniciarJuego() {
+      if (pendientes.length === 0) {
+        document.getElementById("target").textContent = "¡Felicidades! Has localizado todos los países de Asia 🎉";
+        document.getElementById("fin").innerHTML = `
+          <button onclick="reiniciarJuego()">Volver a empezar</button>
+          <button onclick="window.location.href='index.html'">Volver al menú</button>
+        `;
+        return;
+      }
+
+      actual = pendientes[Math.floor(Math.random() * pendientes.length)];
+      document.getElementById("target").textContent = `Haz clic en: ${actual.nombre}`;
+    }
+
+    function reiniciarJuego() {
+      pendientes = [...paises];
+      actual = null;
+      document.getElementById("fin").innerHTML = "";
+      Object.values(pathsMap).forEach(p => p.classList.remove("highlight"));
+      iniciarJuego();
+    }
+
+    cargarSVG();
+  </script>
+</body>
+</html>
