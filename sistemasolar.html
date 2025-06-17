@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego: Planetas y Lunas</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0d1b2a;
+      color: white;
+    }
+
+    header, footer {
+      background-color: #1b263b;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .cell {
+      text-align: center;
+    }
+
+    .cell img {
+      width: 120px;
+      height: auto;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid #5c7cfa;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .nombre {
+      margin-top: 8px;
+      font-weight: bold;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .controls button, .reload {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #5c7cfa;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px;
+    }
+
+    a.back {
+      text-decoration: none;
+      color: #aad8ff;
+      font-weight: bold;
+      margin-top: 20px;
+      display: inline-block;
+    }
+
+    h3 {
+      margin: 30px 0 10px;
+      border-bottom: 1px solid #ffffff33;
+      padding-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Juego: Planetas y Lunas</h1>
+    <a href="index.html" style="color:#aad8ff;">⬅ Volver al menú</a>
+  </header>
+
+  <main>
+    <div class="controls">
+      <button onclick="toggleAllNames()">Mostrar/Ocultar Todos los Nombres</button>
+      <p>Haz clic en una imagen para mostrar el nombre del cuerpo celeste</p>
+    </div>
+
+    <div id="grid-container"></div>
+
+    <button class="reload" onclick="recargarArriba()">🔄 Recargar</button>
+  </main>
+
+  <footer>
+    <p>Hecho por Josu 🚀</p>
+  </footer>
+
+  <script>
+    const sistemaSolar = [
+      { planeta: "mercurio", lunas: [] },
+      { planeta: "venus", lunas: [] },
+      { planeta: "tierra", lunas: ["luna"] },
+      { planeta: "marte", lunas: ["fobos", "deimos"] },
+      { planeta: "jupiter", lunas: ["io", "europa", "ganimedes", "calisto"] },
+      { planeta: "saturno", lunas: ["encelado", "titan", "rea", "dione", "tetis", "mimas", "hiperion", "febes"] },
+      { planeta: "urano", lunas: ["miranda", "ariel", "umbriel", "titania", "oberon"] },
+      { planeta: "neptuno", lunas: ["triton", "nereida"] },
+      { planeta: "pluton", lunas: ["charon"] } // Opcional
+    ];
+
+    let allNamesHidden = true;
+
+    function toggleAllNames() {
+      const names = document.querySelectorAll('.nombre');
+      allNamesHidden = !allNamesHidden;
+      names.forEach(name => {
+        name.classList.toggle('oculto', allNamesHidden);
+      });
+    }
+
+    function toggleName(imgEl) {
+      const nameEl = imgEl.nextElementSibling;
+      if (nameEl && nameEl.classList.contains("nombre")) {
+        nameEl.classList.toggle("oculto");
+      }
+    }
+
+    function recargarArriba() {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      setTimeout(() => location.reload(), 50);
+    }
+
+    function renderGrid() {
+      const container = document.getElementById('grid-container');
+      container.innerHTML = '';
+
+      sistemaSolar.forEach((obj, index) => {
+        const grupo = document.createElement('section');
+        const planetaCapitalizado = obj.planeta.charAt(0).toUpperCase() + obj.planeta.slice(1);
+
+        // Título con número en lugar del nombre del planeta
+        grupo.innerHTML = `<h3>${index + 1}. Planeta</h3><div class="grid"></div>`;
+        const grid = grupo.querySelector('.grid');
+
+        // Añadir el planeta
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerHTML = `
+          <img src="img/${obj.planeta}.png" alt="${planetaCapitalizado}" onclick="toggleName(this)">
+          <p class="nombre oculto">${planetaCapitalizado}</p>
+        `;
+        grid.appendChild(cell);
+
+        // Añadir sus lunas
+        obj.lunas.forEach(luna => {
+          const lunaCapitalizada = luna.charAt(0).toUpperCase() + luna.slice(1);
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.innerHTML = `
+            <img src="img/${luna}.png" alt="${lunaCapitalizada}" onclick="toggleName(this)">
+            <p class="nombre oculto">${lunaCapitalizada}</p>
+          `;
+          grid.appendChild(cell);
+        });
+
+        container.appendChild(grupo);
+      });
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>
